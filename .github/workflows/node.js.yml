@@ -58,3 +58,13 @@ jobs:
       env:
         CI: false
     #- run: npm test
+     # Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      run: npm run deploy
+      working-directory: ./frontend
+
+      # Configure git user for GitHub Pages deployment
+    - name: Set GitHub Pages Commit Author
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
