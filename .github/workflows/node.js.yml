@@ -28,11 +28,25 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
+    # Install dependencies
     - name: Install Dependencies
       run: npm ci
-      working-directory: ./backend
+      working-directory: ./frontend
+      
+      # Update Browserslist to avoid outdated warnings
+    - name: Update Browserslist
+      run: npx update-browserslist-db@latest
+      working-directory: ./frontend
+      
+      # Run ESLint to catch any linting errors
+    - name: Run ESLint
+      run: npm run lint --if-present
+      working-directory: ./frontend
 
-    - name: Build
+      # Build the project with CI set to false to prevent treating warnings as errors
+    - name: Build the project
       run: npm run build --if-present
-      working-directory: ./backend
+      working-directory: ./frontend
+      env:
+        CI: false
     #- run: npm test
